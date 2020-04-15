@@ -3,25 +3,25 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/UserModel');
-const Contact = require('../models/ContactModel');
+const Cache = require('../models/CacheModel');
 
-// GET route for api/contacts
-// Get all users contacts
+// GET route for api/caches
+// Get all users caches
 // Private access
 router.get('/', auth, async (req, res) => {
   try {
-    const contacts = await Contact.find({ user: req.user.id }).sort({
+    const caches = await Cache.find({ user: req.user.id }).sort({
       date: -1,
     });
-    res.json(contacts);
+    res.json(caches);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-// POST route for api/contacts
-// Add contact
+// POST route for api/caches
+// Add cache
 // Private access
 router.post(
   '/',
@@ -33,15 +33,15 @@ router.post(
     }
     const { name, email, phone, type } = req.body;
     try {
-      const newContact = new Contact({
+      const newCache = new Cache({
         name,
         email,
         phone,
         type,
         user: req.user.id,
       });
-      const contact = await newContact.save();
-      res.json(contact);
+      const cache = await newCache.save();
+      res.json(cache);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error');
@@ -49,50 +49,50 @@ router.post(
   }
 );
 
-// PUT route for api/contacts/:id
-// update contact
+// PUT route for api/caches/:id
+// update cache
 // Private access
 router.put('/:id', auth, async (req, res) => {
   const { name, email, phone, type } = req.body;
 
-  const contactFields = {};
-  if (name) contactFields.name = name;
-  if (email) contactFields.email = email;
-  if (phone) contactFields.phone = phone;
-  if (type) contactFields.type = type;
+  const cacheFields = {};
+  if (name) cacheFields.name = name;
+  if (email) cacheFields.email = email;
+  if (phone) cacheFields.phone = phone;
+  if (type) cacheFields.type = type;
 
   try {
-    let contact = await Contact.findById(req.params.id);
-    if (!contact) return res.status(404).json({ msg: 'Contact not found' });
+    let cache = await Cache.findById(req.params.id);
+    if (!cache) return res.status(404).json({ msg: 'Cache not found' });
 
-    if (contact.user.toString() !== req.user.id) {
+    if (cache.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'Not Authorized.' });
     }
-    contact = await Contact.findByIdAndUpdate(
+    cache = await Cache.findByIdAndUpdate(
       req.params.id,
-      { $set: contactFields },
+      { $set: cacheFields },
       { new: true }
     );
-    res.json(contact);
+    res.json(cache);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 });
 
-// DELETE route for api/contacts/:id
-// delete contact
+// DELETE route for api/caches/:id
+// delete cache
 // Private access
 router.delete('/:id', auth, async (req, res) => {
   try {
-    let contact = await Contact.findById(req.params.id);
-    if (!contact) return res.status(404).json({ msg: 'Contact not found' });
+    let cache = await Cache.findById(req.params.id);
+    if (!cache) return res.status(404).json({ msg: 'Cache not found' });
 
-    if (contact.user.toString() !== req.user.id) {
+    if (cache.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'Not Authorized.' });
     }
-    await Contact.findByIdAndRemove(req.params.id);
-    res.json({ msg: 'Contact removed.' });
+    await Cache.findByIdAndRemove(req.params.id);
+    res.json({ msg: 'Cache removed.' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
