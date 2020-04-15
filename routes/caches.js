@@ -25,19 +25,21 @@ router.get('/', auth, async (req, res) => {
 // Private access
 router.post(
   '/',
-  [auth, [check('name', 'Name is required.').not().isEmpty()]],
+  [auth, [check('location', 'Location is required.').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ erros: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
-    const { name, email, phone, type } = req.body;
+    const { location, weapons, food, toiletpaper, trapped, notes } = req.body;
     try {
       const newCache = new Cache({
-        name,
-        email,
-        phone,
-        type,
+        location,
+        weapons,
+        food,
+        toiletpaper,
+        trapped,
+        notes,
         user: req.user.id,
       });
       const cache = await newCache.save();
@@ -53,13 +55,15 @@ router.post(
 // update cache
 // Private access
 router.put('/:id', auth, async (req, res) => {
-  const { name, email, phone, type } = req.body;
+  const { location, weapons, food, toiletpaper, trapped, notes } = req.body;
 
   const cacheFields = {};
-  if (name) cacheFields.name = name;
-  if (email) cacheFields.email = email;
-  if (phone) cacheFields.phone = phone;
-  if (type) cacheFields.type = type;
+  if (location) cacheFields.location = location;
+  if (weapons) cacheFields.weapons = weapons;
+  if (food) cacheFields.food = food;
+  if (toiletpaper) cacheFields.toiletpaper = toiletpaper;
+  if (trapped) cacheFields.trapped = trapped;
+  if (notes) cacheFields.notes = notes;
 
   try {
     let cache = await Cache.findById(req.params.id);
