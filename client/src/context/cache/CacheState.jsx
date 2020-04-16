@@ -30,7 +30,7 @@ const CacheState = (props) => {
         location: 'Abandoned Papermill ',
         weapons: 'Samurai Sword, Glock-19, Winchester .30-06 hunting rifle',
         food:
-          '3lbs deer jerky, 2lbs instant ramen noodles, 3 buckets of harvested buts and berries, 38gals clean water, 32 cans of Spam',
+          '3lbs deer jerky, 2lbs instant ramen noodles, 3 buckets of harvested nuts and berries, 38gals clean water, 32 cans of Spam',
         toiletpaper: 118,
         trapped: 'No',
         notes:

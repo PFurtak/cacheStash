@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { Fragment, useContext } from 'react';
+import CacheItem from './CacheItem';
+import CacheContext from '../../context/cache/cacheContext';
 
 const Caches = () => {
-  return <div></div>;
+  const cacheContext = useContext(CacheContext);
+
+  const { caches } = cacheContext;
+
+  return (
+    <div>
+      <Fragment>
+        {caches.map((cache) => (
+          <CacheItem cache={cache} />
+        ))}
+      </Fragment>
+    </div>
+  );
 };
 
 export default Caches;
