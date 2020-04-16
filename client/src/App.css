@@ -2,7 +2,8 @@
 
 /* Global Styles */
 :root {
-  --primary-color: #003699;
+  --primary-color: #15b885;
+  --secondary-color: #0d7285;
   --dark-color: #333333;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
@@ -19,8 +20,8 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: #fff;
-  color: #333;
+  background-color: #0d7285;
+  color: #fff;
 }
 
 a {
