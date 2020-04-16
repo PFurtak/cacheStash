@@ -1,25 +1,29 @@
 const mongoose = require('mongoose');
 
-const ContactSchema = mongoose.Schema({
+const CacheSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',
   },
-
-  name: {
+  location: {
     type: String,
     required: true,
   },
-  email: {
-    type: String,
-    required: true,
-  },
-  phone: {
+  weapons: {
     type: String,
   },
-  type: {
+  food: {
     type: String,
-    default: 'personal',
+  },
+  toiletpaper: {
+    type: Number,
+  },
+  trapped: {
+    type: String,
+    default: 'no',
+  },
+  notes: {
+    type: String,
   },
   date: {
     type: Date,
@@ -27,4 +31,4 @@ const ContactSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('contact', ContactSchema);
+module.exports = mongoose.model('cache', CacheSchema);
