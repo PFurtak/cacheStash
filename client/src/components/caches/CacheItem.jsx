@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import CacheContext from '../../context/cache/cacheContext';
 
 const CacheItem = ({ cache }) => {
+  const cacheContext = useContext(CacheContext);
   const { id, location, weapons, food, toiletpaper, trapped, notes } = cache;
+  const { deleteCache, setCurrent, clearCurrent } = cacheContext;
+
+  const onDelete = (e) => {
+    deleteCache(id);
+    clearCurrent();
+  };
 
   return (
     <div className='card bg-light'>
@@ -39,11 +47,21 @@ const CacheItem = ({ cache }) => {
         )}
       </ul>
       <p>
-        <button className='btn btn-dark btn-sm'>Edit</button>
-        <button className='btn btn-danger btn-sm'>Delete</button>
+        <button
+          className='btn btn-dark btn-sm'
+          onClick={() => setCurrent(cache)}>
+          Edit
+        </button>
+        <button className='btn btn-danger btn-sm' onClick={onDelete}>
+          Delete
+        </button>
       </p>
     </div>
   );
+};
+
+CacheItem.propTypes = {
+  caches: PropTypes.object.isRequired,
 };
 
 export default CacheItem;

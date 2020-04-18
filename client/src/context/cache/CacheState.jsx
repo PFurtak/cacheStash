@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import cacheReducer from './cacheReducer';
 import CacheContext from './cacheContext';
 import {
@@ -47,19 +47,31 @@ const CacheState = (props) => {
           "Gamestop in Buckhead. Primary cache of toilet paper. Heavily fortified. Parking lot armed with landmines, sniper on watch from adjacent building, claymore armed at front door, 4 guard Dobermans roam the halls. You'll have to pry this TP from our cold dead hands.",
       },
     ],
+    current: null,
   };
   const [state, dispatch] = useReducer(cacheReducer, initialState);
 
   // Future dispatch actions
 
   // Add Cache
+  const addCache = (cache) => {
+    cache.id = uuidv4();
+    dispatch({ type: ADD_CACHE, payload: cache });
+  };
 
   // Delete Cache
+  const deleteCache = (id) => {
+    dispatch({ type: DELETE_CACHE, payload: id });
+  };
 
   // Set Current Cache
-
+  const setCurrent = (cache) => {
+    dispatch({ type: SET_CURRENT, payload: cache });
+  };
   // Clear Current Cache
-
+  const clearCurrent = () => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
   // Update Cache
 
   // Filter Caches
@@ -70,6 +82,11 @@ const CacheState = (props) => {
     <CacheContext.Provider
       value={{
         caches: state.caches,
+        current: state.current,
+        addCache,
+        deleteCache,
+        setCurrent,
+        clearCurrent,
       }}>
       {props.children}
     </CacheContext.Provider>
