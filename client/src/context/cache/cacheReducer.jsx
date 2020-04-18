@@ -15,6 +15,11 @@ export default (state, action) => {
         ...state,
         caches: [...state.caches, action.payload],
       };
+    case DELETE_CACHE:
+      return {
+        ...state,
+        caches: state.caches.filter((cache) => cache.id !== action.payload),
+      };
 
     default:
       return state;

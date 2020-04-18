@@ -59,6 +59,9 @@ const CacheState = (props) => {
   };
 
   // Delete Cache
+  const deleteCache = (id) => {
+    dispatch({ type: DELETE_CACHE, payload: id });
+  };
 
   // Set Current Cache
 
@@ -75,6 +78,7 @@ const CacheState = (props) => {
       value={{
         caches: state.caches,
         addCache,
+        deleteCache,
       }}>
       {props.children}
     </CacheContext.Provider>
