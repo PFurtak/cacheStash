@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import cacheReducer from './cacheReducer';
 import CacheContext from './cacheContext';
 import {
@@ -53,6 +53,10 @@ const CacheState = (props) => {
   // Future dispatch actions
 
   // Add Cache
+  const addCache = (cache) => {
+    cache.id = uuidv4();
+    dispatch({ type: ADD_CACHE, payload: cache });
+  };
 
   // Delete Cache
 
@@ -70,6 +74,7 @@ const CacheState = (props) => {
     <CacheContext.Provider
       value={{
         caches: state.caches,
+        addCache,
       }}>
       {props.children}
     </CacheContext.Provider>

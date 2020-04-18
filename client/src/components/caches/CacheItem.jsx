@@ -46,4 +46,8 @@ const CacheItem = ({ cache }) => {
   );
 };
 
+CacheItem.propTypes = {
+  caches: PropTypes.object.isRequired,
+};
+
 export default CacheItem;
