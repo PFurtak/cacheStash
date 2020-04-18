@@ -47,6 +47,7 @@ const CacheState = (props) => {
           "Gamestop in Buckhead. Primary cache of toilet paper. Heavily fortified. Parking lot armed with landmines, sniper on watch from adjacent building, claymore armed at front door, 4 guard Dobermans roam the halls. You'll have to pry this TP from our cold dead hands.",
       },
     ],
+    current: null,
   };
   const [state, dispatch] = useReducer(cacheReducer, initialState);
 
@@ -64,9 +65,13 @@ const CacheState = (props) => {
   };
 
   // Set Current Cache
-
+  const setCurrent = (cache) => {
+    dispatch({ type: SET_CURRENT, payload: cache });
+  };
   // Clear Current Cache
-
+  const clearCurrent = () => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
   // Update Cache
 
   // Filter Caches
@@ -77,8 +82,11 @@ const CacheState = (props) => {
     <CacheContext.Provider
       value={{
         caches: state.caches,
+        current: state.current,
         addCache,
         deleteCache,
+        setCurrent,
+        clearCurrent,
       }}>
       {props.children}
     </CacheContext.Provider>
