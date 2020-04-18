@@ -31,6 +31,13 @@ export default (state, action) => {
         ...state,
         current: null,
       };
+    case UPDATE_CACHE:
+      return {
+        ...state,
+        caches: state.caches.map((cache) =>
+          cache.id === action.payload.id ? action.payload : cache
+        ),
+      };
     default:
       return state;
   }

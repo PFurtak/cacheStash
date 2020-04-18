@@ -73,7 +73,9 @@ const CacheState = (props) => {
     dispatch({ type: CLEAR_CURRENT });
   };
   // Update Cache
-
+  const updateCache = (cache) => {
+    dispatch({ type: UPDATE_CACHE, payload: cache });
+  };
   // Filter Caches
 
   // Clear Filter
@@ -87,6 +89,7 @@ const CacheState = (props) => {
         deleteCache,
         setCurrent,
         clearCurrent,
+        updateCache,
       }}>
       {props.children}
     </CacheContext.Provider>
