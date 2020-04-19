@@ -1,4 +1,5 @@
 import React, { Fragment, useContext } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import CacheItem from './CacheItem';
 import CacheContext from '../../context/cache/cacheContext';
 
@@ -13,9 +14,19 @@ const Caches = () => {
 
   return (
     <Fragment>
-      {filtered !== null
-        ? filtered.map((cache) => <CacheItem key={cache.id} cache={cache} />)
-        : caches.map((cache) => <CacheItem key={cache.id} cache={cache} />)}
+      <TransitionGroup>
+        {filtered !== null
+          ? filtered.map((cache) => (
+              <CSSTransition key={cache.id} timeout={500} classNames='item'>
+                <CacheItem cache={cache} />
+              </CSSTransition>
+            ))
+          : caches.map((cache) => (
+              <CSSTransition key={cache.id} timeout={500} classNames='item'>
+                <CacheItem cache={cache} />
+              </CSSTransition>
+            ))}
+      </TransitionGroup>
     </Fragment>
   );
 };
