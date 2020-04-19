@@ -1,8 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import CacheContext from '../../context/cache/cacheContext';
 
 const CacheForm = () => {
   const cacheContext = useContext(CacheContext);
+  const { addCache, updateCache, current, clearCurrent } = cacheContext;
+
+  useEffect(() => {
+    if (current !== null) {
+      setCache(current);
+    } else {
+      setCache({
+        location: '',
+        weapons: '',
+        food: '',
+        toiletpaper: '',
+        trapped: 'No',
+        notes: '',
+      });
+    }
+  }, [cacheContext, current]);
 
   const [cache, setCache] = useState({
     location: '',
@@ -23,20 +39,22 @@ const CacheForm = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    cacheContext.addCache(cache);
-    setCache({
-      location: '',
-      weapons: '',
-      food: '',
-      toiletpaper: '',
-      trapped: 'No',
-      notes: '',
-    });
+
+    if (current === null) {
+      addCache(cache);
+    } else {
+      updateCache(cache);
+    }
+    clearAll();
+  };
+
+  const clearAll = () => {
+    clearCurrent();
   };
 
   return (
     <form onSubmit={onSubmit}>
-      <h2>Add Cache Intel</h2>
+      <h2>{current ? 'Update Cache' : 'Add Cache Intel'}</h2>
       <input
         type='text'
         placeholder='Location'
@@ -65,14 +83,16 @@ const CacheForm = () => {
         value={toiletpaper}
         onChange={onChange}
       />
-      <input
-        type='text'
-        placeholder='Description'
+      <textarea
+        rows='4'
+        cols='30'
+        placeholder='Description...'
         name='notes'
         value={notes}
         onChange={onChange}
       />
-      <h5>Is this location armed with traps?</h5>
+      <br />
+      <h4>Is this location armed with traps?</h4>
       <input
         type='radio'
         name='trapped'
@@ -92,10 +112,17 @@ const CacheForm = () => {
       <div>
         <input
           type='submit'
-          value='Add Cache'
+          value={current ? 'Update' : 'Add Cache'}
           className='btn btn-primary btn-block'
         />
       </div>
+      {current && (
+        <div>
+          <button className='btn btn-light btn-block' onClick={clearAll}>
+            Cancel
+          </button>
+        </div>
+      )}
     </form>
   );
 };

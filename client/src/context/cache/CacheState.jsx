@@ -48,6 +48,7 @@ const CacheState = (props) => {
       },
     ],
     current: null,
+    filtered: null,
   };
   const [state, dispatch] = useReducer(cacheReducer, initialState);
 
@@ -73,20 +74,32 @@ const CacheState = (props) => {
     dispatch({ type: CLEAR_CURRENT });
   };
   // Update Cache
-
+  const updateCache = (cache) => {
+    dispatch({ type: UPDATE_CACHE, payload: cache });
+  };
   // Filter Caches
+  const filterCaches = (text) => {
+    dispatch({ type: FILTER_CACHES, payload: text });
+  };
 
   // Clear Filter
+  const clearFilter = () => {
+    dispatch({ type: CLEAR_FILTER });
+  };
 
   return (
     <CacheContext.Provider
       value={{
         caches: state.caches,
         current: state.current,
+        filtered: state.filtered,
         addCache,
         deleteCache,
         setCurrent,
         clearCurrent,
+        updateCache,
+        filterCaches,
+        clearFilter,
       }}>
       {props.children}
     </CacheContext.Provider>

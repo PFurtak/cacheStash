@@ -31,6 +31,31 @@ export default (state, action) => {
         ...state,
         current: null,
       };
+    case UPDATE_CACHE:
+      return {
+        ...state,
+        caches: state.caches.map((cache) =>
+          cache.id === action.payload.id ? action.payload : cache
+        ),
+      };
+    case FILTER_CACHES:
+      return {
+        ...state,
+        filtered: state.caches.filter((cache) => {
+          const regex = new RegExp(`${action.payload}`, 'gi');
+          return (
+            cache.location.match(regex) ||
+            cache.notes.match(regex) ||
+            cache.food.match(regex) ||
+            cache.weapons.match(regex)
+          );
+        }),
+      };
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filtered: null,
+      };
     default:
       return state;
   }
