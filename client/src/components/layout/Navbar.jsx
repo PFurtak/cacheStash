@@ -64,5 +64,5 @@ Navbar.propTypes = {
 
 Navbar.defaultProps = {
   title: 'Cache Stash',
-  icon: 'fas fa-radiation-alt',
+  icon: 'fas fa-radiation-alt fa-lg',
 };

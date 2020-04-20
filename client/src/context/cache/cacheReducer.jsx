@@ -54,7 +54,7 @@ export default (state, action) => {
       return {
         ...state,
         caches: state.caches.map((cache) =>
-          cache.id === action.payload.id ? action.payload : cache
+          cache._id === action.payload._id ? action.payload : cache
         ),
         loading: false,
       };

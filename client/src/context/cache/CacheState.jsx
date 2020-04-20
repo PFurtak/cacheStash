@@ -71,9 +71,21 @@ const CacheState = (props) => {
     dispatch({ type: CLEAR_CURRENT });
   };
   // Update Cache
-  const updateCache = (cache) => {
-    dispatch({ type: UPDATE_CACHE, payload: cache });
+  const updateCache = async (cache) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.put(`/api/caches/${cache._id}`, cache, config);
+      dispatch({ type: UPDATE_CACHE, payload: res.data });
+    } catch (err) {
+      dispatch({ type: CACHE_ERROR, payload: err.response.msg });
+    }
   };
+
   // Filter Caches
   const filterCaches = (text) => {
     dispatch({ type: FILTER_CACHES, payload: text });
