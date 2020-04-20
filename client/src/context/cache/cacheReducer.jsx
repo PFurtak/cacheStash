@@ -23,13 +23,13 @@ export default (state, action) => {
     case ADD_CACHE:
       return {
         ...state,
-        caches: [...state.caches, action.payload],
+        caches: [action.payload, ...state.caches],
         loading: false,
       };
     case DELETE_CACHE:
       return {
         ...state,
-        caches: state.caches.filter((cache) => cache.id !== action.payload),
+        caches: state.caches.filter((cache) => cache._id !== action.payload),
         loading: false,
       };
     case CLEAR_CACHES:

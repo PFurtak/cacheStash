@@ -52,8 +52,14 @@ const CacheState = (props) => {
   };
 
   // Delete Cache
-  const deleteCache = (id) => {
-    dispatch({ type: DELETE_CACHE, payload: id });
+  const deleteCache = async (id) => {
+    try {
+      await axios.delete(`/api/caches/${id}`);
+
+      dispatch({ type: DELETE_CACHE, payload: id });
+    } catch (err) {
+      dispatch({ type: CACHE_ERROR, payload: err.response.msg });
+    }
   };
 
   // Set Current Cache

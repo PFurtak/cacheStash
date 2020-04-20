@@ -11,7 +11,6 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CACHE_ERROR,
   CLEAR_ERRORS,
 } from '../types';
 
