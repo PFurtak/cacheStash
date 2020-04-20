@@ -6,6 +6,7 @@ import {
   UPDATE_CACHE,
   FILTER_CACHES,
   CLEAR_FILTER,
+  CACHE_ERROR,
 } from '../types';
 
 export default (state, action) => {
@@ -55,6 +56,12 @@ export default (state, action) => {
       return {
         ...state,
         filtered: null,
+      };
+
+    case CACHE_ERROR:
+      return {
+        ...state,
+        error: action.payload,
       };
     default:
       return state;

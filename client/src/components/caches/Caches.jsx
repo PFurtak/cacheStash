@@ -6,10 +6,15 @@ import CacheContext from '../../context/cache/cacheContext';
 const Caches = () => {
   const cacheContext = useContext(CacheContext);
 
-  const { caches, filtered } = cacheContext;
+  const { caches, filtered, loading } = cacheContext;
 
-  if (caches.legth === 0) {
-    return <h4>Add a cache location to continue</h4>;
+  if (caches !== null && caches.length === 0 && !loading) {
+    return (
+      <div>
+        <h3>Please add a cache to track</h3>
+        <br />
+      </div>
+    );
   }
 
   return (
@@ -17,12 +22,12 @@ const Caches = () => {
       <TransitionGroup>
         {filtered !== null
           ? filtered.map((cache) => (
-              <CSSTransition key={cache.id} timeout={500} classNames='item'>
+              <CSSTransition key={cache._id} timeout={500} classNames='item'>
                 <CacheItem cache={cache} />
               </CSSTransition>
             ))
           : caches.map((cache) => (
-              <CSSTransition key={cache.id} timeout={500} classNames='item'>
+              <CSSTransition key={cache._id} timeout={500} classNames='item'>
                 <CacheItem cache={cache} />
               </CSSTransition>
             ))}
