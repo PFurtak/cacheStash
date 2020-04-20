@@ -1,6 +1,6 @@
 // Caches
-export const GET_CASCHES = 'GET_CASCHES';
-export const CLEAR_CASCHES = 'CLEAR_CASCHES';
+export const GET_CACHES = 'GET_CASCHES';
+export const CLEAR_CACHES = 'CLEAR_CASCHES';
 export const ADD_CACHE = 'ADD_CACHE';
 export const DELETE_CACHE = 'DELETE_CACHE';
 export const SET_CURRENT = 'SET_CURRENT';

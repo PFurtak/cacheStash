@@ -11,18 +11,28 @@ import {
   FILTER_CACHES,
   CLEAR_FILTER,
   CACHE_ERROR,
+  GET_CACHES,
+  CLEAR_CACHES,
 } from '../types';
 
 const CacheState = (props) => {
   const initialState = {
-    caches: [],
+    caches: null,
     current: null,
     filtered: null,
     error: null,
   };
   const [state, dispatch] = useReducer(cacheReducer, initialState);
 
-  // Future dispatch actions
+  // Get caches
+  const getCaches = async () => {
+    try {
+      const res = await axios.get('/api/caches');
+      dispatch({ type: GET_CACHES, payload: res.data });
+    } catch (err) {
+      dispatch({ type: CACHE_ERROR, payload: err.response.msg });
+    }
+  };
 
   // Add Cache
   const addCache = async (cache) => {
@@ -68,6 +78,11 @@ const CacheState = (props) => {
     dispatch({ type: CLEAR_FILTER });
   };
 
+  // Clear caches
+  const clearCaches = () => {
+    dispatch({ type: CLEAR_CACHES });
+  };
+
   return (
     <CacheContext.Provider
       value={{
@@ -82,6 +97,8 @@ const CacheState = (props) => {
         updateCache,
         filterCaches,
         clearFilter,
+        getCaches,
+        clearCaches,
       }}>
       {props.children}
     </CacheContext.Provider>
