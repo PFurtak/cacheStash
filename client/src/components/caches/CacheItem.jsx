@@ -4,11 +4,11 @@ import CacheContext from '../../context/cache/cacheContext';
 
 const CacheItem = ({ cache }) => {
   const cacheContext = useContext(CacheContext);
-  const { id, location, weapons, food, toiletpaper, trapped, notes } = cache;
+  const { _id, location, weapons, food, toiletpaper, trapped, notes } = cache;
   const { deleteCache, setCurrent, clearCurrent } = cacheContext;
 
   const onDelete = (e) => {
-    deleteCache(id);
+    deleteCache(_id);
     clearCurrent();
   };
 

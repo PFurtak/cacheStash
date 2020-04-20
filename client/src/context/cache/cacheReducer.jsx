@@ -6,21 +6,40 @@ import {
   UPDATE_CACHE,
   FILTER_CACHES,
   CLEAR_FILTER,
+  CACHE_ERROR,
+  GET_CACHES,
+  CLEAR_CACHES,
 } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
+    case GET_CACHES:
+      return {
+        ...state,
+        caches: action.payload,
+        loading: false,
+      };
+
     case ADD_CACHE:
       return {
         ...state,
-        caches: [...state.caches, action.payload],
+        caches: [action.payload, ...state.caches],
+        loading: false,
       };
     case DELETE_CACHE:
       return {
         ...state,
-        caches: state.caches.filter((cache) => cache.id !== action.payload),
+        caches: state.caches.filter((cache) => cache._id !== action.payload),
+        loading: false,
       };
-
+    case CLEAR_CACHES:
+      return {
+        ...state,
+        caches: null,
+        filtered: null,
+        error: null,
+        current: null,
+      };
     case SET_CURRENT:
       return {
         ...state,
@@ -35,8 +54,9 @@ export default (state, action) => {
       return {
         ...state,
         caches: state.caches.map((cache) =>
-          cache.id === action.payload.id ? action.payload : cache
+          cache._id === action.payload._id ? action.payload : cache
         ),
+        loading: false,
       };
     case FILTER_CACHES:
       return {
@@ -50,11 +70,20 @@ export default (state, action) => {
             cache.weapons.match(regex)
           );
         }),
+        loading: false,
       };
     case CLEAR_FILTER:
       return {
         ...state,
         filtered: null,
+        loading: false,
+      };
+
+    case CACHE_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
       };
     default:
       return state;

@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 import cacheReducer from './cacheReducer';
 import CacheContext from './cacheContext';
 import {
@@ -10,59 +10,56 @@ import {
   UPDATE_CACHE,
   FILTER_CACHES,
   CLEAR_FILTER,
+  CACHE_ERROR,
+  GET_CACHES,
+  CLEAR_CACHES,
 } from '../types';
 
 const CacheState = (props) => {
   const initialState = {
-    caches: [
-      {
-        id: 1,
-        location: 'Old Farm House',
-        weapons: 'AK-47',
-        food: '12lbs brown rice, 1 Pallet of ramen noodles',
-        toiletpaper: 6,
-        trapped: 'Yes',
-        notes:
-          'Old farm house at the end of Grieson street. Back entrance is armed with a claymore, safe entry point is through the locked garage. Supplies are buried in the unfinished basement.',
-      },
-      {
-        id: 2,
-        location: 'Abandoned Papermill ',
-        weapons: 'Samurai Sword, Glock-19, Winchester .30-06 hunting rifle',
-        food:
-          '3lbs deer jerky, 2lbs instant ramen noodles, 3 buckets of harvested nuts and berries, 38gals clean water, 32 cans of Spam',
-        toiletpaper: 118,
-        trapped: 'No',
-        notes:
-          'Abandoned papermill on Flat Shoals road. Home base, fortified with barriers and armed lookout squad.',
-      },
-      {
-        id: 3,
-        location: 'GameStop',
-        weapons: 'Benelli M4 Tactical Shotgun',
-        food: '3 slices of Avacodo Toast',
-        toiletpaper: 652,
-        trapped: 'Yes',
-        notes:
-          "Gamestop in Buckhead. Primary cache of toilet paper. Heavily fortified. Parking lot armed with landmines, sniper on watch from adjacent building, claymore armed at front door, 4 guard Dobermans roam the halls. You'll have to pry this TP from our cold dead hands.",
-      },
-    ],
+    caches: null,
     current: null,
     filtered: null,
+    error: null,
   };
   const [state, dispatch] = useReducer(cacheReducer, initialState);
 
-  // Future dispatch actions
+  // Get caches
+  const getCaches = async () => {
+    try {
+      const res = await axios.get('/api/caches');
+      dispatch({ type: GET_CACHES, payload: res.data });
+    } catch (err) {
+      dispatch({ type: CACHE_ERROR, payload: err.response.msg });
+    }
+  };
 
   // Add Cache
-  const addCache = (cache) => {
-    cache.id = uuidv4();
-    dispatch({ type: ADD_CACHE, payload: cache });
+  const addCache = async (cache) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.post('/api/caches', cache, config);
+
+      dispatch({ type: ADD_CACHE, payload: res.data });
+    } catch (err) {
+      dispatch({ type: CACHE_ERROR, payload: err.response.msg });
+    }
   };
 
   // Delete Cache
-  const deleteCache = (id) => {
-    dispatch({ type: DELETE_CACHE, payload: id });
+  const deleteCache = async (id) => {
+    try {
+      await axios.delete(`/api/caches/${id}`);
+
+      dispatch({ type: DELETE_CACHE, payload: id });
+    } catch (err) {
+      dispatch({ type: CACHE_ERROR, payload: err.response.msg });
+    }
   };
 
   // Set Current Cache
@@ -74,9 +71,21 @@ const CacheState = (props) => {
     dispatch({ type: CLEAR_CURRENT });
   };
   // Update Cache
-  const updateCache = (cache) => {
-    dispatch({ type: UPDATE_CACHE, payload: cache });
+  const updateCache = async (cache) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.put(`/api/caches/${cache._id}`, cache, config);
+      dispatch({ type: UPDATE_CACHE, payload: res.data });
+    } catch (err) {
+      dispatch({ type: CACHE_ERROR, payload: err.response.msg });
+    }
   };
+
   // Filter Caches
   const filterCaches = (text) => {
     dispatch({ type: FILTER_CACHES, payload: text });
@@ -87,12 +96,18 @@ const CacheState = (props) => {
     dispatch({ type: CLEAR_FILTER });
   };
 
+  // Clear caches
+  const clearCaches = () => {
+    dispatch({ type: CLEAR_CACHES });
+  };
+
   return (
     <CacheContext.Provider
       value={{
         caches: state.caches,
         current: state.current,
         filtered: state.filtered,
+        error: state.error,
         addCache,
         deleteCache,
         setCurrent,
@@ -100,6 +115,8 @@ const CacheState = (props) => {
         updateCache,
         filterCaches,
         clearFilter,
+        getCaches,
+        clearCaches,
       }}>
       {props.children}
     </CacheContext.Provider>

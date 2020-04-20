@@ -2,14 +2,18 @@ import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
+import CacheContext from '../../context/cache/cacheContext';
 
 const Navbar = ({ title, icon }) => {
   const authContext = useContext(AuthContext);
+  const cacheContext = useContext(CacheContext);
 
   const { isAuthenticated, logout, user } = authContext;
+  const { clearCaches } = cacheContext;
 
   const onLogout = () => {
     logout();
+    clearCaches();
   };
 
   const authLinks = (
@@ -60,5 +64,5 @@ Navbar.propTypes = {
 
 Navbar.defaultProps = {
   title: 'Cache Stash',
-  icon: 'fas fa-radiation-alt',
+  icon: 'fas fa-radiation-alt fa-lg',
 };
