@@ -19,9 +19,10 @@ const CacheItem = ({ cache }) => {
         <span
           style={{ float: 'right' }}
           className={
-            'badge ' + (trapped === 'Yes' ? 'badge-danger' : 'badge-primary')
+            'badge ' +
+            (trapped === 'Trapped' ? 'badge-danger' : 'badge-primary')
           }>
-          {'Traps? ' + trapped.charAt(0).toUpperCase() + trapped.slice(1)}
+          {trapped.charAt(0).toUpperCase() + trapped.slice(1)}
         </span>
       </h3>
       <ul className='list'>

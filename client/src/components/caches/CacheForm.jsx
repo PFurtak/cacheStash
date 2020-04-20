@@ -14,7 +14,7 @@ const CacheForm = () => {
         weapons: '',
         food: '',
         toiletpaper: '',
-        trapped: 'No',
+        trapped: 'Safe',
         notes: '',
       });
     }
@@ -25,7 +25,7 @@ const CacheForm = () => {
     weapons: '',
     food: '',
     toiletpaper: '',
-    trapped: 'No',
+    trapped: 'Safe',
     notes: '',
   });
 
@@ -96,19 +96,19 @@ const CacheForm = () => {
       <input
         type='radio'
         name='trapped'
-        value='No'
-        checked={trapped === 'No'}
+        value='Safe'
+        checked={trapped === 'Safe'}
         onChange={onChange}
       />{' '}
-      No{' '}
+      Safe{' '}
       <input
         type='radio'
         name='trapped'
-        value='Yes'
-        checked={trapped === 'Yes'}
+        value='Trapped'
+        checked={trapped === 'Trapped'}
         onChange={onChange}
       />{' '}
-      Yes{' '}
+      Trapped{' '}
       <div>
         <input
           type='submit'

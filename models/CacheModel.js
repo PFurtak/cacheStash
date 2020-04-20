@@ -20,7 +20,7 @@ const CacheSchema = mongoose.Schema({
   },
   trapped: {
     type: String,
-    default: 'no',
+    default: 'Safe',
   },
   notes: {
     type: String,

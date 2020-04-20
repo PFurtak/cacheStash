@@ -1,4 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://cachestashadmin:Cache007@cache-stash-5jj4j.mongodb.net/test?retryWrites=true&w=majority",
-  "jwtSecret": "OMGwereALLburningAlive!"
-}
